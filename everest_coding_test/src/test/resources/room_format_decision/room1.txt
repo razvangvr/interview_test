@@ -1,0 +1,7 @@
+•  x  •  x
+g  •  •  e
+•  b  •  •
+x  •  g  •
+
+//using the bullet char
+//https://www.alt-codes.net/bullet_alt_codes.php
