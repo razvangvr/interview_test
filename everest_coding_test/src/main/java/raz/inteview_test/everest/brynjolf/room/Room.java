@@ -3,6 +3,7 @@ package raz.inteview_test.everest.brynjolf.room;
 import raz.inteview_test.everest.brynjolf.Direction;
 import raz.inteview_test.everest.brynjolf.util.MatrixUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,11 +13,31 @@ public class Room {
 
     private final Element[][] roomMatrix;
 
-    public Room(Element[][] roomMatrix) {
+    private List<MovementObserver> movementObservers = new ArrayList<>();
 
-        validateMatrix(roomMatrix);
+    public Room(Element[][] matrix) {
 
-        this.roomMatrix = roomMatrix;
+        validateMatrix(matrix);
+
+        this.roomMatrix = new Element[matrix.length][matrix.length];
+
+        Element inputElem;
+        Element roomElem;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                inputElem = matrix[i][j];
+                if (inputElem.getValue().isStructural()) {
+                    roomMatrix[i][j] = inputElem;
+                } else {
+                    //I don't like this...
+                    //Better use composition and create a new Type which you add to the list of movementObservers
+                    // you just need the `Element`
+                    roomElem = new MotionSensitiveElement(inputElem, this.roomMatrix);
+                    roomMatrix[i][j] = roomElem;
+                    movementObservers.add((MovementObserver) roomElem);
+                }
+            }
+        }
     }
 
     private void validateMatrix(Element[][] roomMatrix) {
@@ -30,6 +51,14 @@ public class Room {
     }
 
     public void executeMoveSequence(List<Direction> moves) {
+        for (Direction direction : moves) {
+            movementObservers.stream()
+                    .forEach(e -> e.onMoveEvent(direction));
+        }
+    }
+
+    public Element[][] getRoomMatrix() {
+        return roomMatrix;
     }
 
     public String prettyPrint() {

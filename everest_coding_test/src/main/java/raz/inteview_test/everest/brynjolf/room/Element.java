@@ -16,16 +16,23 @@ public class Element {
     //- a space, a wall, a guard, is it Bryn?, is it exist?
     private ElementValue value;
 
-    public Element(ElementValue value) {
+    private final int rowIdx;
+    private final int colIdx;
+
+    public Element(ElementValue value, int rowIdx, int colIdx) {
         this.value = value;
+        this.rowIdx = rowIdx;
+        this.colIdx = colIdx;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Element element = (Element) o;
-        return value == element.value;
+        if (o == null /*|| getClass() != o.getClass()*/) return false;
+        Element other = (Element) o;
+        return rowIdx == other.rowIdx &&
+                colIdx == other.colIdx &&
+                value == other.value;
     }
 
     @Override
@@ -41,5 +48,17 @@ public class Element {
 
     public String prettyPrint() {
         return value.toString();
+    }
+
+    public ElementValue getValue() {
+        return value;
+    }
+
+    public int rowIdx() {
+        return rowIdx;
+    }
+
+    public int colIdx(){
+        return colIdx;
     }
 }

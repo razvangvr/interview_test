@@ -29,7 +29,7 @@ public class MatrixFileConverter {
                     .map(s -> s.trim())
                     .collect(Collectors.toList());
 
-            Element[] oneMatrixRow = oneMatrixRow(rowValues);
+            Element[] oneMatrixRow = oneMatrixRow(rowValues, rowIdx);
 
             matrix[rowIdx] = oneMatrixRow;
 
@@ -48,13 +48,17 @@ public class MatrixFileConverter {
         }
     }
 
-    private Element[] oneMatrixRow(List<String> rowValues) {
+    private Element[] oneMatrixRow(List<String> rowValues, int rowIdx) {
         Element[] oneMatrixRow = new Element[rowValues.size()];
         Element element = null;
 
 
         for (int idx = 0; idx <= rowValues.size() - 1; idx++) {
-            element = new Element(ElementValue.fromValue(rowValues.get(idx)));
+            element = new Element(
+                    ElementValue.fromValue(rowValues.get(idx)),
+                    rowIdx,
+                    idx
+            );
             oneMatrixRow[idx] = element;
         }
 

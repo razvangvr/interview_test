@@ -22,6 +22,16 @@ public enum ElementValue {
         throw new IllegalArgumentException("Invalid  Room Value:" + val);
     }
 
+    /**
+     * Is part of the Room Structure, it has nothing to do with movement,
+     * e.g
+     * 1/ it is fixed, it doesn't need to participate in movement logic
+     * 2/ you can not change it's value and move into this Element (by transferring your current value to this this cell)
+     */
+    boolean isStructural() {
+        return this == WALL || this == EXIT;
+    }
+
     @Override
     public String toString() {
         return strVal;

@@ -20,6 +20,21 @@ class RoomMovementShould {
 
     Room room;
 
+
+    @Test
+    void bryn_on_south_edge_move_down() throws IOException {
+        Path filePath = testSubDir.resolve("bryn_up_initial.txt");
+
+        Element[][] roomMatrix = matrixFileConverter.loadFromFile(filePath);
+
+        room = new Room(roomMatrix);
+
+        room.executeMoveSequence(Collections.singletonList(Direction.DOWN));
+
+        //We're on the edge, and we have nowhere to go, so input and output should be equal
+        assertArrayEquals(room.getRoomMatrix(), roomMatrix);
+    }
+
     @Test
     void move_bryn_up() throws IOException {
         Path filePath = testSubDir.resolve("bryn_up_initial.txt");
