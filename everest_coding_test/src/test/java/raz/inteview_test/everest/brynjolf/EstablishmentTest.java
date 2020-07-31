@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,6 +26,7 @@ public class EstablishmentTest {
         System.out.println(movesSequence);
 
         //XXX> I need to parse movesSequence into an Enum
+        List<Direction> moves = Direction.parseString(movesSequence);
 
         // Given an initial/starting Room State Input
         String roomStrFormat = Files.readString(testSubDir.resolve("room.txt"));
@@ -32,7 +34,10 @@ public class EstablishmentTest {
         System.out.print(roomStrFormat);
 
         //WHEN executing the sequence of moves
-        String roomOutput = brynGame.executeMoveSequence();
+        brynGame.executeMoveSequence(moves);
+
+        String roomOutput = brynGame.prettyPrint();
+
 
         //THEN we should get the following output
         String expectedStrFormat = Files.readString(testSubDir.resolve("room_up_right(final-expected).txt"));
