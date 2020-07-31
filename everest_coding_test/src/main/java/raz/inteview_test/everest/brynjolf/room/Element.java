@@ -9,7 +9,7 @@ import java.util.Objects;
 //idea: elements could react to events
 //daca avem evenimentul UP, we fire this event and all elements react/update their state based on the current move(UP)
 //update their state =  they move up (if possible)
-// ZZA: instead of shifting the coordonates:x,y , it is better to just shift the value from the neighbour, based on the direction
+// ZZA: instead of shifting the coordonates:x,y , it is better to just shift the value from/to the neighbour, based on the direction
 public class Element {
 
     //what kind of Room Element is it?

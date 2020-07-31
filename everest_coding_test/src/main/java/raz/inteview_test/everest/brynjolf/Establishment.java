@@ -41,6 +41,5 @@ public class Establishment {
     and the result, the output of <<Running/Executing the sequence of moves>> should be:
     expected-final state, considering the Game Rules/Rules of Room
 
-    XXX> in order to run/execute the sequence of moves I need an internal representation
     * */
 }
