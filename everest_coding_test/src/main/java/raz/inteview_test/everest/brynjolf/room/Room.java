@@ -1,4 +1,6 @@
-package raz.inteview_test.everest.brynjolf;
+package raz.inteview_test.everest.brynjolf.room;
+
+import raz.inteview_test.everest.brynjolf.Direction;
 
 import java.util.List;
 

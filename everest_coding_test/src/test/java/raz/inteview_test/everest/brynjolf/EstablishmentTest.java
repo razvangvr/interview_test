@@ -1,6 +1,7 @@
 package raz.inteview_test.everest.brynjolf;
 
 import org.junit.jupiter.api.Test;
+import raz.inteview_test.everest.brynjolf.room.Room;
 
 import java.io.IOException;
 import java.nio.file.Files;
