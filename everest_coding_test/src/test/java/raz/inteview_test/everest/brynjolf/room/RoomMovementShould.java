@@ -3,13 +3,15 @@ package raz.inteview_test.everest.brynjolf.room;
 import org.junit.jupiter.api.Test;
 import raz.inteview_test.everest.brynjolf.Direction;
 import raz.inteview_test.everest.brynjolf.util.MatrixFileConverter;
+import raz.inteview_test.everest.brynjolf.util.MatrixUtil;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class RoomMovementShould {
 
@@ -47,6 +49,25 @@ class RoomMovementShould {
 
         Element[][] expectedMatrix = matrixFileConverter.loadFromFile(testSubDir.resolve("bryn_up_final.txt"));
 
-        assertArrayEquals(expectedMatrix, roomMatrix);
+        assertArrayEquals(expectedMatrix, room.getRoomMatrix());
+
+        System.out.println(MatrixUtil.prettyPrint(room.getRoomMatrix()));
+    }
+
+    @Test
+    void move_bryn_up_right() throws IOException {
+        Path filePath = testSubDir.resolve("bryn_up_initial.txt");
+
+        Element[][] roomMatrix = matrixFileConverter.loadFromFile(filePath);
+
+        room = new Room(roomMatrix);
+
+        room.executeMoveSequence(List.of(Direction.UP, Direction.RIGHT));
+
+        Element[][] expectedMatrix = matrixFileConverter.loadFromFile(testSubDir.resolve("bryn_up_right_final.txt"));
+
+        assertArrayEquals(expectedMatrix, room.getRoomMatrix());
+
+        System.out.println(MatrixUtil.prettyPrint(room.getRoomMatrix()));
     }
 }

@@ -42,8 +42,7 @@ public class Element {
 
     @Override
     public String toString() {
-        return "[" + value +
-                ']';
+        return "[" + rowIdx + "][" + colIdx + "] " + value;
     }
 
     public String prettyPrint() {
@@ -54,11 +53,15 @@ public class Element {
         return value;
     }
 
+    public void setValue(ElementValue value) {
+        this.value = value;
+    }
+
     public int rowIdx() {
         return rowIdx;
     }
 
-    public int colIdx(){
+    public int colIdx() {
         return colIdx;
     }
 }

@@ -1,5 +1,6 @@
 package raz.inteview_test.everest.brynjolf;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import raz.inteview_test.everest.brynjolf.room.Element;
 import raz.inteview_test.everest.brynjolf.room.Room;
@@ -27,6 +28,7 @@ public class EstablishmentTest {
     MatrixFileConverter matrixFileConverter = new MatrixFileConverter();
 
     @Test
+    @Disabled("work in progress")
     void execute_movements_sequence() throws IOException {
         //Given a sequence of moves
         System.out.println(movesSequence);

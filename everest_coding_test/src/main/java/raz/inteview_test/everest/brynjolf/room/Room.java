@@ -29,12 +29,9 @@ public class Room {
                 if (inputElem.getValue().isStructural()) {
                     roomMatrix[i][j] = inputElem;
                 } else {
-                    //I don't like this...
-                    //Better use composition and create a new Type which you add to the list of movementObservers
-                    // you just need the `Element`
-                    roomElem = new MotionSensitiveElement(inputElem, this.roomMatrix);
+                    roomElem = new MovableElement(inputElem, this.roomMatrix);
                     roomMatrix[i][j] = roomElem;
-                    movementObservers.add((MovementObserver) roomElem);
+                    movementObservers.add(((MovableElement) roomElem).getMovementHandler());
                 }
             }
         }
