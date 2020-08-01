@@ -43,8 +43,8 @@ class GuardsRoomMovementShould extends RoomMovementTestBase {
     private static Stream<Arguments> test1Args() {
         return Stream.of(
                 Arguments.of("initial.txt", "final.txt", "rurd"),
-                Arguments.of("initial_2_guards.txt", "final_2_guards.txt", "ur")/* Make sure that 2 Guards follow the same Direction*/
-//                Arguments.of("ulur")
+                Arguments.of("initial_2_guards.txt", "final_2_guards.txt", "ur"),/* Make sure that 2 Guards follow the same Direction*/
+                Arguments.of("initial_2_guards_collide.txt", "final_2_guards_collide.txt", "ul")/* Make sure that 2 Guards CAN'T Collide*/
         );
     }
 }

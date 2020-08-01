@@ -46,6 +46,18 @@ public class MovableElementConsumer implements MovementObserver {
         }
     }
 
+    /*
+    Idee, pentru fiecare movement creeaza cate-un obiect gen
+    - Bryn into Space
+    - Guard into Space, etc...
+
+    - DAARRR, sunt cazuri speciala unde este nevoie de additional logic
+    Ex:
+    Bryn into Exit - additional Logic: signal Game Win
+    sau
+    Bryn into Guard/ Guard into Bryn - additional Logic: signal Game Lost
+    * */
+
     private boolean isValidTargetForMove(Element target) {
         return target != null && !target.getValue().isStructural();
     }
