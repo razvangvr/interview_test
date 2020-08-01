@@ -48,7 +48,8 @@ class ComprehensiveRoomMovementTest extends RoomMovementTestBase {
                 Arguments.of("initial_1_guard_following_bryn.txt", "final_1_guard_following_bryn.txt", "rurd"),
                 Arguments.of("initial_2_guards.txt", "final_2_guards.txt", "ur"),/* Make sure that 2 Guards follow the same Direction*/
                 Arguments.of("initial_2_guards_collide.txt", "final_2_guards_collide.txt", "ul"),/* Make sure that 2 Guards CAN'T Collide,*/
-                Arguments.of("initial_guard_overlaps_into_bryn.txt", "final_guard_overlaps_into_bryn.txt", "ul")/*A guard CAN Move into Bryn*/
+                Arguments.of("initial_guard_overlaps_into_bryn.txt", "final_guard_overlaps_into_bryn.txt", "ul"),/*A guard CAN Move into Bryn => Caught*/
+                Arguments.of("initial_bryn_can_exit_room.txt", "final_bryn_can_exit_room.txt", "ul")/*Bryn CAN Move into exit, but the guard CAN NOT => Escape/Win*/
         );
     }
 }
