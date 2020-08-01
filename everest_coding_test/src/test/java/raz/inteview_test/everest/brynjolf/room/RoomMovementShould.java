@@ -2,26 +2,20 @@ package raz.inteview_test.everest.brynjolf.room;
 
 import org.junit.jupiter.api.Test;
 import raz.inteview_test.everest.brynjolf.Direction;
-import raz.inteview_test.everest.brynjolf.util.MatrixFileConverter;
 import raz.inteview_test.everest.brynjolf.util.MatrixUtil;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-class RoomMovementShould {
+class RoomMovementShould extends RoomMovementTestBase {
 
-    Path testSrcResources = Paths.get("src", "test", "resources");
-    Path testSubDir = testSrcResources.resolve("movement");
-
-    MatrixFileConverter matrixFileConverter = new MatrixFileConverter();
-
-    Room room;
-
+    protected String testFilesSubDir() {
+        return "movement";
+    }
 
     @Test
     void bryn_on_south_edge_move_down() throws IOException {

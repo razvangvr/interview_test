@@ -18,13 +18,14 @@ public class MovableElementConsumer implements MovementObserver {
     * */
     @Override
     public void onMoveEvent(Direction direction) {
+        //System.out.println(element.toString());
         if (!isActive())
             return;
 
         //1. Get the target/next position
         Element target = getNextPosition(direction);
 
-        if (target != null) {
+        if (isValidTargetForMove(target)) {
             //As long as it is a BlankSpace we can perform the move
             //That means:
             //1. - transfer/transition the value to the next position/Element
@@ -33,11 +34,20 @@ public class MovableElementConsumer implements MovementObserver {
             //2. - set the value of the `this`/current element to Empty Space
             element.setValue(ElementValue.EMPTY);
 
-            //3. Because the target has been updated (and it has become Bryn/Guard),
+            //3. Because the target has been updated (and it has become an active MovableElement(e.g:Bryn/Guard)),
             // Propagate the move, chain reaction
             ((MovableElement) target).getMovementHandler().onMoveEvent(direction);
+        } else {
+            //The current movable element can't move
+            //considering the Target(next position) which is given by the current direction
+            //we can't move/advance
+            //so just return for the current moveEvent
+            return;
         }
+    }
 
+    private boolean isValidTargetForMove(Element target) {
+        return target != null && !target.getValue().isStructural();
     }
 
     private Element getNextPosition(Direction direction) {
@@ -62,7 +72,7 @@ public class MovableElementConsumer implements MovementObserver {
 
     /**
      * Only Bryn or Guard can move, hence is active
-     * the rest(the Empty Space) is passive in movement
+     * the rest of Elements(e.g the Empty Space) is passive in movement
      */
     protected boolean isActive() {
         return (element.getValue() == ElementValue.BRYN || element.getValue() == ElementValue.GUARD);
