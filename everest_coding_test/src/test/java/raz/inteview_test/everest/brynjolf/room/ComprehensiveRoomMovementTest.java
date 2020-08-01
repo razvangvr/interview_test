@@ -1,5 +1,7 @@
 package raz.inteview_test.everest.brynjolf.room;
 
+import jdk.jfr.Description;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,7 +14,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-class GuardsRoomMovementShould extends RoomMovementTestBase {
+class ComprehensiveRoomMovementTest extends RoomMovementTestBase {
 
     @Override
     protected String testFilesSubDir() {
@@ -21,7 +23,8 @@ class GuardsRoomMovementShould extends RoomMovementTestBase {
 
     @ParameterizedTest
     @MethodSource("test1Args")
-    void fallow_bryn_direction(String inputFile, String outputFile, String movesStr) throws Exception {
+    @DisplayName("Th")
+    void test_all_movement_combinations(String inputFile, String outputFile, String movesStr) throws Exception {
         //Path filePath = testSubDir.resolve("bryn_up_left_up_right_initial.txt");
         Path filePath = testSubDir.resolve(inputFile);
 
@@ -42,9 +45,10 @@ class GuardsRoomMovementShould extends RoomMovementTestBase {
 
     private static Stream<Arguments> test1Args() {
         return Stream.of(
-                Arguments.of("initial.txt", "final.txt", "rurd"),
+                Arguments.of("initial_1_guard_following_bryn.txt", "final_1_guard_following_bryn.txt", "rurd"),
                 Arguments.of("initial_2_guards.txt", "final_2_guards.txt", "ur"),/* Make sure that 2 Guards follow the same Direction*/
-                Arguments.of("initial_2_guards_collide.txt", "final_2_guards_collide.txt", "ul")/* Make sure that 2 Guards CAN'T Collide*/
+                Arguments.of("initial_2_guards_collide.txt", "final_2_guards_collide.txt", "ul"),/* Make sure that 2 Guards CAN'T Collide,*/
+                Arguments.of("initial_guard_overlaps_into_bryn.txt", "final_guard_overlaps_into_bryn.txt", "ul")/*A guard CAN Move into Bryn*/
         );
     }
 }

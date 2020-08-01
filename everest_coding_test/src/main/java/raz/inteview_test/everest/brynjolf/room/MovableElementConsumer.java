@@ -1,6 +1,7 @@
 package raz.inteview_test.everest.brynjolf.room;
 
 import raz.inteview_test.everest.brynjolf.Direction;
+import raz.inteview_test.everest.brynjolf.movement.MovementCondition;
 
 //this class actually executes/implements the move logic
 public class MovableElementConsumer implements MovementObserver {
@@ -59,7 +60,10 @@ public class MovableElementConsumer implements MovementObserver {
     * */
 
     private boolean isValidTargetForMove(Element target) {
-        return target != null && !target.getValue().isStructural();
+        if (target == null || target.getValue().isStructural())
+            return false;
+        MovementCondition canMoveIntoTarget = new MovementCondition(element, target);
+        return canMoveIntoTarget.isMoveIntoTargetAllowed();
     }
 
     private Element getNextPosition(Direction direction) {
