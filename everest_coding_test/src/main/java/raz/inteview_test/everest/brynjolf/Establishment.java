@@ -11,6 +11,17 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
+ * TODO: pay attention to
+ * <p>
+ * "It's been a few days. You are able to visualize the board up to 4 moves ahead"
+ * "Sometimes the game is undecided after 4 moves"
+ * <p>
+ * idee, fire GameStatus Events like:
+ * - game undecided/due to movesCount Limit reached
+ * - game won/Bryn has Exited
+ * - game lost/Bryn was Caught
+ * </p>
+ * <p>
  * Attainment/The Goal: ability to perfectly simulate the outcome of a sequence of moves
  * That is:
  * Input:
