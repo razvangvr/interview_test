@@ -33,7 +33,7 @@ import java.util.List;
  * </p>
  */
 /*
-This is a coordination class, it's main intent is to be used in a main/CommandLine App, in a UnitTest, or in any other way
+This is a Coordinator class, it's main intent(coordinate, orchestrate, bootstrap) is to be used in a main/CommandLine App, in a UnitTest, or in any other way
 * */
 public class Establishment {
     private final static MatrixFileConverter matrixFileConverter = new MatrixFileConverter();
@@ -54,7 +54,7 @@ public class Establishment {
 
     private void validateInput() {
         if (!Files.exists(roomFilePath))
-            throw new IllegalArgumentException("No valid filePath" + roomFilePath);
+            throw new IllegalArgumentException("No valid filePath" + roomFilePath + " expecting 'room.txt' in project location resources/room.txt");
 
         if (movesSequence == null || movesSequence.isEmpty())
             throw new IllegalArgumentException("movesSequence is required, it can't be empty");

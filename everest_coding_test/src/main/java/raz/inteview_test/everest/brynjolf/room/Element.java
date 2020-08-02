@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Element {
 
     //what kind of Room Element is it?
-    //- a space, a wall, a guard, is it Bryn?, is it exist?
+    //- a space, a wall, a guard, is it Bryn?, is it the exit?
     private ElementValue value;
 
     private final int rowIdx;
