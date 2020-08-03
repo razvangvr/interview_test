@@ -1,9 +1,10 @@
 package raz.inteview_test.everest.brynjolf.movement;
 
-import org.junit.jupiter.api.function.Executable;
 import raz.inteview_test.everest.brynjolf.GameStatus;
 import raz.inteview_test.everest.brynjolf.room.Element;
 import raz.inteview_test.everest.brynjolf.room.Room;
+
+import java.util.function.Consumer;
 
 // rename to MovementTransition?
 public class MovementCondition {
@@ -11,7 +12,11 @@ public class MovementCondition {
     final Element nextPosition;
     final Room gameRoom;
 
-    Executable executableAdditionalLogic;
+    //Executable executableAdditionalLogic;
+    /*
+    When trying to run this from terminal, I got: Caused by: java.lang.ClassNotFoundException: org.junit.jupiter.api.function.Executable
+    * */
+    Consumer<Room> executableAdditionalLogic;
 
     public MovementCondition(Element currentPosition, Element nextPosition, Room room) {
         this.currentPosition = currentPosition;
@@ -22,7 +27,7 @@ public class MovementCondition {
     public void executeAdditionalLogic() {
         try {
             if (executableAdditionalLogic != null)
-                executableAdditionalLogic.execute();
+                executableAdditionalLogic.accept(gameRoom);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
@@ -43,19 +48,19 @@ public class MovementCondition {
 
         if (currentPosition.isGuard() && nextPosition.isBryn()) {
             //a guard can move into a bryn
-            executableAdditionalLogic = () -> gameRoom.setGameStatus(GameStatus.LOSE);
+            executableAdditionalLogic = (room) -> room.setGameStatus(GameStatus.LOSE);
             return true;
         }
 
         if (currentPosition.isBryn() && nextPosition.isGuard()) {
             //it's a stupid move, but... if you really want to... bryn can move into a guard, and you lose!
-            executableAdditionalLogic = () -> gameRoom.setGameStatus(GameStatus.LOSE);
+            executableAdditionalLogic = (room) -> room.setGameStatus(GameStatus.LOSE);
             return true;
         }
 
         if (currentPosition.isBryn() && nextPosition.isExit()) {
             //Bryn can move into a Exit
-            executableAdditionalLogic = () -> gameRoom.setGameStatus(GameStatus.WIN);
+            executableAdditionalLogic = (room) -> room.setGameStatus(GameStatus.WIN);
             return true;
         }
 
