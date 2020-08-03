@@ -1,6 +1,5 @@
 package raz.inteview_test.everest.brynjolf;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import raz.inteview_test.everest.brynjolf.room.Element;
 import raz.inteview_test.everest.brynjolf.room.Room;
@@ -17,18 +16,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EstablishmentTest {
 
-    String movesSequence = "ur";
+    String movesSequence = "ludrr";
 
     Path testSrcResources = Paths.get("src", "test", "resources");
 
-    Path testSubDir = testSrcResources.resolve("establishment/step0_up_right");
+    Path testSubDir = testSrcResources.resolve("establishment");
 
     Room brynGame;
 
     MatrixFileConverter matrixFileConverter = new MatrixFileConverter();
 
     @Test
-    @Disabled("work in progress")
     void execute_movements_sequence() throws IOException {
         //Given a sequence of moves
         System.out.println(movesSequence);
@@ -47,16 +45,22 @@ public class EstablishmentTest {
         brynGame = new Room(roomMatrix);
 
         //WHEN executing the sequence of moves
-        brynGame.executeMoveSequence(moves);
+        SimulationResult gameResult = brynGame.executeMoveSequence(moves);
 
         String roomOutput = brynGame.prettyPrint();
 
 
         //THEN we should get the following output
-        String expectedStrFormat = Files.readString(testSubDir.resolve("room_up_right(final-expected).txt"));
+        String expectedStrFormat = Files.readString(testSubDir.resolve("final_room_ludrr_state.txt"));
         System.out.println("expected output >>");
         System.out.print(expectedStrFormat);
 
         assertEquals(expectedStrFormat.trim(), roomOutput);
+
+        assertEquals(GameStatus.LOSE, gameResult.getGameStatus());
+
+        assertEquals(2, gameResult.getMovesCount());
+
+        System.out.println(gameResult.getGameStatus() + ": executed " + gameResult.getMovesCount() + " moves out of " + moves.size());
     }
 }

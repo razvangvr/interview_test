@@ -47,6 +47,12 @@ public class MovementCondition {
             return true;
         }
 
+        if (currentPosition.isBryn() && nextPosition.isGuard()) {
+            //it's a stupid move, but... if you really want to... bryn can move into a guard, and you lose!
+            executableAdditionalLogic = () -> gameRoom.setGameStatus(GameStatus.LOSE);
+            return true;
+        }
+
         if (currentPosition.isBryn() && nextPosition.isExit()) {
             //Bryn can move into a Exit
             executableAdditionalLogic = () -> gameRoom.setGameStatus(GameStatus.WIN);
