@@ -63,14 +63,15 @@ public class Room {
         }
         //we executed all the moves(withing the MAX_MOVES threshold) and yet no status is set
         //that means that the moves didn't Win the game, but also we didn't get caught
-        setGameStatus(GameStatus.UNDECIDED);
+        if (gameStatus == null)
+            setGameStatus(GameStatus.UNDECIDED);
     }
 
     public Element[][] getRoomMatrix() {
         return roomMatrix;
     }
 
-    private void setGameStatus(GameStatus status) {
+    public void setGameStatus(GameStatus status) {
         if (gameStatus != null)
             throw new IllegalStateException("We already have a status:" + gameStatus + " a game status should be set only once. not on cumulative conditions");
 

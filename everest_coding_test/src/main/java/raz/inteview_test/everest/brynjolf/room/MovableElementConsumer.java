@@ -27,7 +27,8 @@ public class MovableElementConsumer implements MovementObserver {
 
         //1. Get the target/next position
         Element target = getNextPosition(direction);
-        boolean canTransitionIntoTarget = isValidTargetForMove(target);
+        MovementCondition canMoveIntoTarget = new MovementCondition(element, target, gameRoom);
+        boolean canTransitionIntoTarget = canMoveIntoTarget.isValidTarget() && canMoveIntoTarget.isMoveIntoTargetAllowed();
         //System.out.println(element.toString() + " -> " + target + " " + canTransitionIntoTarget);
         if (canTransitionIntoTarget) {
             //That means:
@@ -40,12 +41,13 @@ public class MovableElementConsumer implements MovementObserver {
 
             //2. - set the value of the `this`/current element to Empty Space
             element.setValue(ElementValue.EMPTY);
+            canMoveIntoTarget.executeAdditionalLogic();
 
             //3. Because the target has been updated (and it has become an active MovableElement(e.g:Bryn/Guard)),
             // Propagate the move, chain reaction
             if (!target.isStructural()) {
                 //This is a particular case: Bryn can move into the exit.
-                //But the exit doesn't need to be further notified by invoking `onMoveEvent`
+                //But the exit is not a MotionAware Element, so it doesn't need to be further notified by invoking `onMoveEvent`
                 ((MovableElement) target).getMovementHandler().onMoveEvent(direction);
             }
         } else {
@@ -69,12 +71,12 @@ public class MovableElementConsumer implements MovementObserver {
     Bryn into Guard/ Guard into Bryn - additional Logic: signal Game Lost
     * */
 
-    private boolean isValidTargetForMove(Element target) {
-        if (target == null || target.isWall())
-            return false;
-        MovementCondition canMoveIntoTarget = new MovementCondition(element, target);
-        return canMoveIntoTarget.isMoveIntoTargetAllowed();
-    }
+//    private boolean isValidTargetForMove(Element target) {
+//        if (target == null || target.isWall())
+//            return false;
+//        MovementCondition canMoveIntoTarget = new MovementCondition(element, target);
+//        return canMoveIntoTarget.isMoveIntoTargetAllowed();
+//    }
 
     private Element getNextPosition(Direction direction) {
         int rowIdx = direction.rowIdxOffset == 0 ? element.rowIdx() : element.rowIdx() + direction.rowIdxOffset;

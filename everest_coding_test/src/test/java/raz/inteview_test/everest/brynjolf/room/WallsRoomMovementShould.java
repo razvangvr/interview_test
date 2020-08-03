@@ -1,17 +1,12 @@
 package raz.inteview_test.everest.brynjolf.room;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import raz.inteview_test.everest.brynjolf.Direction;
-import raz.inteview_test.everest.brynjolf.util.MatrixFileConverter;
 import raz.inteview_test.everest.brynjolf.util.MatrixUtil;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
