@@ -19,14 +19,15 @@ public class MovableElementConsumer implements MovementObserver {
     * */
     @Override
     public void onMoveEvent(Direction direction) {
-        //System.out.println(element.toString());
+
         if (!isActive())
             return;
 
         //1. Get the target/next position
         Element target = getNextPosition(direction);
-
-        if (isValidTargetForMove(target)) {
+        boolean canTransitionIntoTarget = isValidTargetForMove(target);
+        System.out.println(element.toString() + " -> " + target + " " + canTransitionIntoTarget);
+        if (canTransitionIntoTarget) {
             //As long as it is a BlankSpace we can perform the move
             //That means:
             //1. - transfer/transition the value to the next position/Element
