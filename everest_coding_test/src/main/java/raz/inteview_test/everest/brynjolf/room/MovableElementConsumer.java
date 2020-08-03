@@ -26,7 +26,7 @@ public class MovableElementConsumer implements MovementObserver {
         //1. Get the target/next position
         Element target = getNextPosition(direction);
         boolean canTransitionIntoTarget = isValidTargetForMove(target);
-        System.out.println(element.toString() + " -> " + target + " " + canTransitionIntoTarget);
+        //System.out.println(element.toString() + " -> " + target + " " + canTransitionIntoTarget);
         if (canTransitionIntoTarget) {
             //That means:
             //1. - transfer/transition the value to the next position/Element
@@ -89,14 +89,9 @@ public class MovableElementConsumer implements MovementObserver {
         return target;
     }
 
-    //protected boolean canMoveInGivenDirection()
-
-    //protected boolean canHandleDirection() - tinand cont de directie, are target? are ceva de executat?
-    //se poate muta ceva?
-
     /**
-     * Only Bryn or Guard can move, hence is active
-     * the rest of Elements(e.g the Empty Space) is passive in movement
+     * Only Bryn or Guard can move, hence isActive - returns true
+     * For the rest of Elements(e.g the Empty Space) is passive in movement
      */
     protected boolean isActive() {
         return (element.getValue() == ElementValue.BRYN || element.getValue() == ElementValue.GUARD);

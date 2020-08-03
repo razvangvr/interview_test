@@ -26,7 +26,8 @@ class GameStatusRoomMovement extends RoomMovementTestBase {
     void test_different_game_scenarios(String inputFile,
                                        String outputFile,
                                        String movesStr,
-                                       int movesCount) throws Exception {
+                                       int movesCount,
+                                       GameStatus gameStatus) throws Exception {
         //Path filePath = testSubDir.resolve("bryn_up_left_up_right_initial.txt");
         Path filePath = testSubDir.resolve(inputFile);
 
@@ -44,15 +45,15 @@ class GameStatusRoomMovement extends RoomMovementTestBase {
 
         assertArrayEquals(expectedMatrix, room.getRoomMatrix());
 
-        //assertEquals(GameStatus.UNDECIDED, room.getGameStatus());
+        assertEquals(gameStatus, room.getGameStatus());
 
         assertEquals(movesCount, room.getMovesCount());
     }
 
     private static Stream<Arguments> test1Args() {
         return Stream.of(
-                //Arguments.of("initial_undecided_6x_up.txt", "final_undecided_6x_up.txt", "uuuuuu"),//Testing the Undecided Status due to movesCount Limit exceeded
-                Arguments.of("initial_2_guards.txt", "final_2_guards_right_win.txt", "r", 1)//Testing the Win Status, 1 Move
+                Arguments.of("initial_undecided_6x_up.txt", "final_undecided_6x_up.txt", "uuuuuu", 4, GameStatus.UNDECIDED),//Testing the Undecided Status due to movesCount Limit exceeded
+                Arguments.of("initial_2_guards.txt", "final_2_guards_right_win.txt", "r", 1, GameStatus.WIN)//Testing the Win Status, 1 Move
         );
     }
 }

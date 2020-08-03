@@ -56,13 +56,17 @@ public class Room {
     }
 
     public void executeMoveSequence(List<Direction> moves) {
-        for (int i = 0; i < moves.size(); i++) {
+        int idxThreshold = Math.min(MAX_MOVES, moves.size());
+        for (int i = 0; i <= idxThreshold - 1; i++) {
             ++movesCount;
             Direction direction = moves.get(i);
             movementObservers.stream()
                     .forEach(e -> e.onMoveEvent(direction));
             System.out.println("current move number:" + movesCount + " executed move:" + direction);
         }
+        //we executed all the moves(withing the MAX_MOVES threshold) and yet no status is set
+        //that means that the moves didn't Win the game, but also we didn't get caught
+        setGameStatus(GameStatus.UNDECIDED);
     }
 
     public Element[][] getRoomMatrix() {
