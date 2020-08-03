@@ -2,6 +2,7 @@ package raz.inteview_test.everest.brynjolf.room;
 
 import raz.inteview_test.everest.brynjolf.Direction;
 import raz.inteview_test.everest.brynjolf.GameStatus;
+import raz.inteview_test.everest.brynjolf.SimulationResult;
 import raz.inteview_test.everest.brynjolf.util.MatrixUtil;
 
 import java.util.ArrayList;
@@ -53,18 +54,24 @@ public class Room {
             throw new IllegalArgumentException("A room is always a square");
     }
 
-    public void executeMoveSequence(List<Direction> moves) {
+    public SimulationResult executeMoveSequence(List<Direction> moves) {
         int idxThreshold = Math.min(MAX_MOVES, moves.size());
         for (int i = 0; i <= idxThreshold - 1; i++) {
+            if (gameStatus != null) {
+                //If we have a status, don't continue with the moves, stop!
+                break;
+            }
             ++movesCount;
             Direction direction = moves.get(i);
             movementObservers.forEach(e -> e.onMoveEvent(direction));
-            System.out.println("current move number:" + movesCount + " executed move:" + direction);
+            //System.out.println("current move number:" + movesCount + " executed move:" + direction);
         }
         //we executed all the moves(withing the MAX_MOVES threshold) and yet no status is set
         //that means that the moves didn't Win the game, but also we didn't get caught
         if (gameStatus == null)
             setGameStatus(GameStatus.UNDECIDED);
+
+        return new SimulationResult(gameStatus, movesCount);
     }
 
     public Element[][] getRoomMatrix() {
@@ -76,14 +83,6 @@ public class Room {
             throw new IllegalStateException("We already have a status:" + gameStatus + " a game status should be set only once. not on cumulative conditions");
 
         this.gameStatus = status;
-    }
-
-    public GameStatus getGameStatus() {
-        return gameStatus;
-    }
-
-    public int getMovesCount() {
-        return movesCount;
     }
 
     public String prettyPrint() {

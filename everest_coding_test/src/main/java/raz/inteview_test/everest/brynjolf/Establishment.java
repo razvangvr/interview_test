@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * TODO: pay attention to
+ * TODO_done: pay attention to
  * <p>
  * "It's been a few days. You are able to visualize the board up to 4 moves ahead"
  * "Sometimes the game is undecided after 4 moves"
@@ -32,9 +32,6 @@ import java.util.List;
  * Write a commandline application that will take this sequence as input and prints how the room looks. That is:<b>perfectly simulate the outcome of a sequence of moves<b/>
  * </p>
  */
-/*
-This is a Coordinator class, it's main intent(coordinate, orchestrate, bootstrap) is to be used in a main/CommandLine App, in a UnitTest, or in any other way
-* */
 public class Establishment {
     private final static MatrixFileConverter matrixFileConverter = new MatrixFileConverter();
 
@@ -43,6 +40,11 @@ public class Establishment {
     private final Path roomFilePath;
     private final String movesSequence;
     private final List<Direction> moves;
+    private SimulationResult gameResult;
+
+    public SimulationResult getGameResult() {
+        return gameResult;
+    }
 
     public Establishment(Path roomFilePath, String movesSequence) {
         this.roomFilePath = roomFilePath;
@@ -60,12 +62,15 @@ public class Establishment {
             throw new IllegalArgumentException("movesSequence is required, it can't be empty");
     }
 
-    private String executeMoves() throws IOException {
+    /**
+     * prints how the rooms looks at the end
+     */
+    String executeMoves() throws IOException {
         Element[][] roomMatrix = matrixFileConverter.loadFromFile(roomFilePath);
 
         Room brynGame = new Room(roomMatrix);
 
-        brynGame.executeMoveSequence(moves);
+        gameResult = brynGame.executeMoveSequence(moves);
 
         String roomOutput = brynGame.prettyPrint();
 
@@ -93,17 +98,9 @@ public class Establishment {
         String outputStrMatrixFormat = phase1.executeMoves();
 
         System.out.println("Output:");
-        System.out.print(outputStrMatrixFormat);
+        System.out.println(outputStrMatrixFormat);
 
-        //TODO 1 : status Win, Lose, Undecided?
-        phase1.getStatus();
-
-        //TODO 2 How many moves have we executed? - if the game reaches an terminal status, you no longer need to run the MovesSequence
-
+        System.out.println(phase1.getGameResult().getGameStatus() + ": executed " + phase1.getGameResult().getMovesCount() + " moves out of " + phase1.moves.size());
     }
-
-    private void getStatus() {
-    }
-
 
 }
