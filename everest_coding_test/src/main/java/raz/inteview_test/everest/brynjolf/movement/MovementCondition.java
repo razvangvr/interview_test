@@ -1,7 +1,6 @@
 package raz.inteview_test.everest.brynjolf.movement;
 
 import raz.inteview_test.everest.brynjolf.room.Element;
-import raz.inteview_test.everest.brynjolf.room.ElementValue;
 
 public class MovementCondition {
     final Element currentPosition;
@@ -14,23 +13,23 @@ public class MovementCondition {
 
     public boolean isMoveIntoTargetAllowed() {
 
-        if (nextPosition.getValue() == ElementValue.EMPTY)
+        if (nextPosition.isEmpty())
             //Anyone can always move into a Empty Space
             return true;
 
-        if (currentPosition.getValue() == ElementValue.GUARD && nextPosition.getValue() == ElementValue.BRYN)
+        if (currentPosition.isGuard() && nextPosition.isBryn())
             //a guard can move into a bryn
             return true;
 
-        if (currentPosition.getValue() == ElementValue.BRYN && nextPosition.getValue() == ElementValue.EXIT)
+        if (currentPosition.isBryn() && nextPosition.isExit())
             //Bryn can move into a Exit
             return true;
 
-        if (currentPosition.getValue() == ElementValue.GUARD && nextPosition.getValue() == ElementValue.EXIT)
+        if (currentPosition.isGuard() && nextPosition.isExit())
             //a Guard can not move into Exit
             return false;
 
-        if (currentPosition.getValue() == ElementValue.GUARD && nextPosition.getValue() == ElementValue.GUARD)
+        if (currentPosition.isGuard() && nextPosition.isGuard())
             //a guard can not move into a guard
             return false;
 

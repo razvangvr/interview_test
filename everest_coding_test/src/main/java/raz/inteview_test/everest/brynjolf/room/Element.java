@@ -6,6 +6,8 @@ A room is nothing more then a matrix of Elements
 
 import java.util.Objects;
 
+import static raz.inteview_test.everest.brynjolf.room.ElementValue.*;
+
 //idea: elements could react to events
 //daca avem evenimentul UP, we fire this event and all elements react/update their state based on the current move(UP)
 //update their state =  they move up (if possible)
@@ -54,6 +56,8 @@ public class Element {
     }
 
     public void setValue(ElementValue value) {
+        if (isStructural())
+            throw new UnsupportedOperationException("I am part of the game Structure:" + this.toString() + " - you can't change me!");
         this.value = value;
     }
 
@@ -63,5 +67,35 @@ public class Element {
 
     public int colIdx() {
         return colIdx;
+    }
+
+    public boolean isWall() {
+        return getValue() == WALL;
+    }
+
+    public boolean isEmpty() {
+        return getValue() == EMPTY;
+    }
+
+    public boolean isGuard() {
+        return getValue() == GUARD;
+    }
+
+    public boolean isBryn() {
+        return getValue() == BRYN;
+    }
+
+    public boolean isExit() {
+        return getValue() == EXIT;
+    }
+
+    /**
+     * Is part of the Room Structure, it has nothing to do with movement,
+     * That is:
+     * 1/ IT CAN MOVE (it is fixed, it doesn't need to participate in movement logic)
+     * 2/ you can not change it's value and move into this Element (by transferring your current value to this this cell)
+     */
+    public boolean isStructural() {
+        return isWall() || isExit();
     }
 }

@@ -32,7 +32,7 @@ public class Room {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 inputElem = matrix[i][j];
-                if (inputElem.getValue().isStructural()) {
+                if (inputElem.isStructural()) {
                     roomMatrix[i][j] = inputElem;
                 } else {
                     roomElem = new MovableElement(inputElem, this.roomMatrix);

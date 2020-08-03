@@ -28,17 +28,24 @@ public class MovableElementConsumer implements MovementObserver {
         boolean canTransitionIntoTarget = isValidTargetForMove(target);
         System.out.println(element.toString() + " -> " + target + " " + canTransitionIntoTarget);
         if (canTransitionIntoTarget) {
-            //As long as it is a BlankSpace we can perform the move
             //That means:
             //1. - transfer/transition the value to the next position/Element
-            target.setValue(element.getValue());
+            if (target.isEmpty() || target.isBryn()) {
+                //As long as it is a BlankSpace, (or a Guard can move into Bryn), we should transition the value to the targe
+                target.setValue(element.getValue());
+            }
+
 
             //2. - set the value of the `this`/current element to Empty Space
             element.setValue(ElementValue.EMPTY);
 
             //3. Because the target has been updated (and it has become an active MovableElement(e.g:Bryn/Guard)),
             // Propagate the move, chain reaction
-            ((MovableElement) target).getMovementHandler().onMoveEvent(direction);
+            if (!target.isStructural()) {
+                //This is a particular case: Bryn can move into the exit.
+                //But the exit doesn't need to be further notified by invoking `onMoveEvent`
+                ((MovableElement) target).getMovementHandler().onMoveEvent(direction);
+            }
         } else {
             //The current movable element can't move
             //considering the Target(next position) which is given by the current direction
@@ -61,7 +68,7 @@ public class MovableElementConsumer implements MovementObserver {
     * */
 
     private boolean isValidTargetForMove(Element target) {
-        if (target == null || target.getValue().isStructural())
+        if (target == null || target.isWall())
             return false;
         MovementCondition canMoveIntoTarget = new MovementCondition(element, target);
         return canMoveIntoTarget.isMoveIntoTargetAllowed();
