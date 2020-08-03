@@ -15,7 +15,7 @@ public class Room {
 
     private final Element[][] roomMatrix;
 
-    private List<MovementObserver> movementObservers = new ArrayList<>();
+    private final List<MovementObserver> movementObservers = new ArrayList<>();
 
     private GameStatus gameStatus;
 
@@ -28,18 +28,16 @@ public class Room {
         this.roomMatrix = new Element[matrix.length][matrix.length];
 
         Element inputElem;
-        Element roomElem;
+        MovableElement motionAwareRoomElem;
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 inputElem = matrix[i][j];
                 if (inputElem.isStructural()) {
                     roomMatrix[i][j] = inputElem;
                 } else {
-                    roomElem = new MovableElement(inputElem, this.roomMatrix);
-                    roomMatrix[i][j] = roomElem;
-                    movementObservers.add(
-                            ((MovableElement) roomElem).getMovementHandler()
-                    );
+                    motionAwareRoomElem = new MovableElement(inputElem, this);
+                    roomMatrix[i][j] = motionAwareRoomElem;
+                    movementObservers.add(motionAwareRoomElem.getMovementHandler());
                 }
             }
         }
@@ -60,8 +58,7 @@ public class Room {
         for (int i = 0; i <= idxThreshold - 1; i++) {
             ++movesCount;
             Direction direction = moves.get(i);
-            movementObservers.stream()
-                    .forEach(e -> e.onMoveEvent(direction));
+            movementObservers.forEach(e -> e.onMoveEvent(direction));
             System.out.println("current move number:" + movesCount + " executed move:" + direction);
         }
         //we executed all the moves(withing the MAX_MOVES threshold) and yet no status is set

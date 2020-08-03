@@ -1,7 +1,5 @@
 package raz.inteview_test.everest.brynjolf.room;
 
-import jdk.jfr.Description;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,7 +21,7 @@ class ComprehensiveRoomMovementTest extends RoomMovementTestBase {
 
     @ParameterizedTest
     @MethodSource("test1Args")
-    //@DisplayName("Th")
+        //@DisplayName("Th")
     void test_all_movement_combinations(String inputFile, String outputFile, String movesStr) throws Exception {
         //Path filePath = testSubDir.resolve("bryn_up_left_up_right_initial.txt");
         Path filePath = testSubDir.resolve(inputFile);

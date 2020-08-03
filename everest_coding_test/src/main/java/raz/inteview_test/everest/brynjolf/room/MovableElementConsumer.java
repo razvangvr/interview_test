@@ -8,10 +8,12 @@ public class MovableElementConsumer implements MovementObserver {
 
     private final Element element;
     private final Element[][] roomMatrix;
+    private final Room gameRoom;
 
-    public MovableElementConsumer(Element element, Element[][] roomMatrix) {
+    public MovableElementConsumer(Element element, /*Element[][] roomMatrix*/ Room gameRoom) {
         this.element = element;
-        this.roomMatrix = roomMatrix;
+        this.gameRoom = gameRoom;
+        roomMatrix = gameRoom.getRoomMatrix();
     }
 
     /*
