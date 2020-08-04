@@ -10,9 +10,9 @@ public abstract class RoomMovementTestBase {
 
     static Path testSrcResources = Paths.get("src", "test", "resources");
 
-    Path testSubDir = null;
+    protected Path testSubDir = null;
 
-    MatrixFileConverter matrixFileConverter = new MatrixFileConverter();
+    protected MatrixFileConverter matrixFileConverter = new MatrixFileConverter();
 
     Room room;
 
