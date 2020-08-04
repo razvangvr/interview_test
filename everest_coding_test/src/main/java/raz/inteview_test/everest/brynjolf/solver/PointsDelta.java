@@ -29,10 +29,10 @@ public class PointsDelta {
         Direction lineMovement = null;
         Direction colMovement = null;
         if (lineDelta == 0) {
-            //we move only RIGHT or LEFT
+            //we move only RIGHT or LEFT, on the "columns axis"
             lineMovement = colDelta > 0 ? RIGHT : LEFT;
         } else if (colDelta == 0) {
-            //we move only UP or DOWN
+            //we move only UP or DOWN, on the "lines axis"
             colMovement = lineDelta > 0 ? DOWN : UP;
         } else {
             //we move in both directions

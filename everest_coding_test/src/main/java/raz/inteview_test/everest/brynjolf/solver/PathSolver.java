@@ -17,6 +17,10 @@ public class PathSolver {
     public PathSolver(Element[][] roomMatrix) {
         this.roomMatrix = roomMatrix;
 
+        locateBrynAndExit(roomMatrix);
+    }
+
+    private void locateBrynAndExit(Element[][] roomMatrix) {
         Element oneElem;
         for (int line = 0; line < roomMatrix.length; line++) {
             for (int col = 0; col < roomMatrix.length; col++) {
@@ -46,6 +50,6 @@ public class PathSolver {
         //Diferenta punctelor in plan cartezian
         PointsDelta delta = new PointsDelta(bryn, exit);
 
-        return  delta.exitIsToYour().stream().collect(Collectors.toList());
+        return delta.exitIsToYour().stream().collect(Collectors.toList());
     }
 }
