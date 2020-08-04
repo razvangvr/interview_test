@@ -1,6 +1,8 @@
 package raz.inteview_test.everest.brynjolf;
 
-import java.util.List;
+import raz.inteview_test.everest.brynjolf.room.Element;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,7 +16,7 @@ public enum Direction {
     private final String direction;
 
     public final int rowIdxOffset;
-    public  final int colIdxOffset;
+    public final int colIdxOffset;
 
     Direction(String dir, int rowIdxOffset, int colIdxOffset) {
         this.direction = dir;
@@ -37,5 +39,23 @@ public enum Direction {
         return stringStream
                 .map(s -> Direction.fromString(s))
                 .collect(Collectors.toList());
+    }
+
+    public static Set<Element> nodeNeighbours(Element[][] roomMatrix, Element node) {
+        Set<Element> neighbours = new HashSet<>();
+        Element neighbour = null;
+        for (Direction direction : Direction.values()) {
+            int rowIdx = direction.rowIdxOffset == 0 ? node.rowIdx() : node.rowIdx() + direction.rowIdxOffset;
+            int colIdx = direction.colIdxOffset == 0 ? node.colIdx() : node.colIdx() + direction.colIdxOffset;
+
+            try {
+                neighbour = roomMatrix[rowIdx][colIdx];
+                if (!neighbour.isWall())
+                    neighbours.add(neighbour);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                //Ignored
+            }
+        }
+        return neighbours;
     }
 }
