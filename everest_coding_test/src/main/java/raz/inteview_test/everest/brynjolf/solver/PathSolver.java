@@ -4,13 +4,31 @@ import raz.inteview_test.everest.brynjolf.Direction;
 import raz.inteview_test.everest.brynjolf.room.Element;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PathSolver {
 
     private final Element[][] roomMatrix;
 
+    /* Get from Bryn to Exit*/
+    private Element bryn;
+    private Element exit;
+
     public PathSolver(Element[][] roomMatrix) {
         this.roomMatrix = roomMatrix;
+
+        Element oneElem;
+        for (int line = 0; line < roomMatrix.length; line++) {
+            for (int col = 0; col < roomMatrix.length; col++) {
+                oneElem = roomMatrix[line][col];
+                if (oneElem.isBryn()) {
+                    bryn = oneElem;
+                }
+                if (oneElem.isExit()) {
+                    exit = oneElem;
+                }
+            }
+        }
     }
 
     /*
@@ -23,6 +41,11 @@ public class PathSolver {
     - for a given input, the output is the same
     * */
     public List<Direction> findPath() {
-        return null;
+
+        //Step 1
+        //Diferenta punctelor in plan cartezian
+        PointsDelta delta = new PointsDelta(bryn, exit);
+
+        return  delta.exitIsToYour().stream().collect(Collectors.toList());
     }
 }

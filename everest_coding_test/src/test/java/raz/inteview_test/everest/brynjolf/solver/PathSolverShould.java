@@ -12,7 +12,6 @@ import raz.inteview_test.everest.brynjolf.room.RoomMovementTestBase;
 import raz.inteview_test.everest.brynjolf.util.MatrixUtil;
 
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -31,7 +30,7 @@ class PathSolverShould extends RoomMovementTestBase {
 
     @ParameterizedTest
     @MethodSource("testArgs")
-    void find_movements_sequence(String inputFile) throws Exception{
+    void find_movements_sequence(String inputFile) throws Exception {
         Path filePath = testSubDir.resolve(inputFile);
         Element[][] roomMatrix = matrixFileConverter.loadFromFile(filePath);
         System.out.println(MatrixUtil.prettyPrint(roomMatrix));
@@ -40,13 +39,13 @@ class PathSolverShould extends RoomMovementTestBase {
         room = new Room(roomMatrix);
 
         //Building the Model/Output Data Set
-        List<Direction> movesSeq = pathSolver.findPath();//Collections.singletonList(Direction.RIGHT);
+        List<Direction> movesSeq = pathSolver.findPath();
 
         assertEquals(Direction.RIGHT, movesSeq.get(0));
 
 
         //Evaluation
-        //If the list of moves was correctly generated, you should win
+        //If the list of moves was correctly generated, you should win the game
         SimulationResult result = room.executeMoveSequence(movesSeq);
 
         assertEquals(GameStatus.WIN, result.getGameStatus());
