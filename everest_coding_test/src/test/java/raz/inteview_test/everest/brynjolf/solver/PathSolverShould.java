@@ -68,6 +68,10 @@ class PathSolverShould extends RoomMovementTestBase {
                 Arguments.of(
                         "initial_go_right.txt",
                         Collections.singletonList(RIGHT),
+                        WIN),
+                Arguments.of(
+                        "walls/initial_go_up_wall.txt",
+                        Collections.singletonList(UP),
                         WIN)
         );
     }
