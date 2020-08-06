@@ -48,13 +48,15 @@ class BFSStandardTest extends RoomMovementTestBase {
         //Building the Model/Output Data Set
         //List<Direction> directionsToExit = solver.nodesToExit();
 
-        List<Element> nodesToExit = solver.findPath();
+        List<Element> nodesToExit = solver.nextPath();
         System.out.println("nodesToExitToExit >>"+nodesToExit);
 
         List<Direction> directionsToExit = solver.findPathDir();
 
         assertEquals(expected, directionsToExit);
 
+        nodesToExit = solver.nextPath();
+        System.out.println("nodesToExitToExit >>"+nodesToExit);
 
         //Evaluation
         //If the list of moves was correctly generated, you should win the game
@@ -68,11 +70,11 @@ class BFSStandardTest extends RoomMovementTestBase {
 
     private static Stream<Arguments> testArgs() {
         return Stream.of(
-                Arguments.of(
-                        "room_exit_on_first_level.txt",
-                        Collections.singletonList(UP)
-                )
-                ,
+//                Arguments.of(
+//                        "room_exit_on_first_level.txt",
+//                        Collections.singletonList(UP)
+//                )
+//                ,
                 Arguments.of(
                         "roomA.txt",
                         List.of(RIGHT, UP)

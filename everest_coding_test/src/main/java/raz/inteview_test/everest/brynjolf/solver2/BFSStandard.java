@@ -3,7 +3,9 @@ package raz.inteview_test.everest.brynjolf.solver2;
 import raz.inteview_test.everest.brynjolf.Direction;
 import raz.inteview_test.everest.brynjolf.pathFinder.Node;
 import raz.inteview_test.everest.brynjolf.room.Element;
+import raz.inteview_test.everest.brynjolf.room.ElementValue;
 import raz.inteview_test.everest.brynjolf.solver.PointsDelta;
+import raz.inteview_test.everest.brynjolf.util.MatrixUtil;
 
 import java.util.*;
 
@@ -46,7 +48,8 @@ public class BFSStandard {
         }
     }
 
-    public List<Element> findPath() {
+    public List<Element> nextPath() {
+        checkIfPathExists_invalidate_it_and_go_to_next_path();
         //SolutionPath path1; set visited in context of a SolutionPath, dar daca mai vrei alt path... atunci nodurile din path-ul asta le marcam ca DeadEnd
         //ca wall si asta va forta algoritmul ca caute in remaining space
         Node exit = exitFound(bryn);
@@ -58,9 +61,21 @@ public class BFSStandard {
         return pathToExit;
     }
 
+    private void checkIfPathExists_invalidate_it_and_go_to_next_path() {
+        if (pathToExit != null) {
+            pathToExit.remove(bryn);
+            pathToExit.remove(exit);
+            for (Element node : pathToExit) {
+                node.setValue(ElementValue.WALL);
+            }
+            pathToExit = null;
+            MatrixUtil.showMatrix(gameMatrix);
+        }
+    }
+
     public List<Direction> findPathDir() {
         if (pathToExit == null)
-            pathToExit = findPath();
+            pathToExit = nextPath();
         return buildDirections(pathToExit);
     }
 
@@ -71,6 +86,7 @@ public class BFSStandard {
     Node exitFound(Node root) {
         Set<Node> directNeighbours = root.nodeNeighbours();
         root.setVisited(true);
+        //System.out.println("setting visited:"+root);
         if (isExitReached(directNeighbours)) {
             Node exit = getExit(directNeighbours);
             childToParent.put(exit, root);

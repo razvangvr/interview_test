@@ -5,6 +5,7 @@ import raz.inteview_test.everest.brynjolf.room.Element;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Node extends Element {
 
@@ -35,7 +36,7 @@ public class Node extends Element {
                 //Ignored
             }
         }
-        return neighbours;
+        return neighbours.stream().filter(e->!e.isVisited()).collect(Collectors.toSet());
     }
 
     public Element[][] getRoomMatrix() {
