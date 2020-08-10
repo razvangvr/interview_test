@@ -2,13 +2,3 @@
 .  x  .  .
 .  b  .  .
 .  .  .  .
-
-//aici ai vecini si in jos, dar pt ca iesirea e in sus, nu are rost sa incepi cu cei de jos
-- you have all the paths ordered by their length
-- start with the shortest path and see if this solves the puzzle,
-- if not , go to the next shortest path
-
-__
-
-new ideea, cand gasesti the shortest path, o si evaluezi, si daca e win, te opresiti
-daca nu o calculezi pe urmatoarea next shortest
