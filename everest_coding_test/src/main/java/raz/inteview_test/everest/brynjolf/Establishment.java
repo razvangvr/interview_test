@@ -16,16 +16,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * TODO_done: pay attention to
- * <p>
- * "It's been a few days. You are able to visualize the board up to 4 moves ahead"
- * "Sometimes the game is undecided after 4 moves"
- * <p>
- * idee, fire GameStatus Events like:
- * - game undecided/due to movesCount Limit reached
- * - game won/Bryn has Exited
- * - game lost/Bryn was Caught
- * </p>
  * <p>
  * Attainment/The Goal: ability to perfectly simulate the outcome of a sequence of moves
  * That is:
@@ -107,9 +97,6 @@ public class Establishment {
         Path filePath = resourcesDir.resolve("room.txt");
         String movesSeq = args[0];
 
-//        System.out.println("Step 0, sequence of moves Program Args >>" + Arrays.toString(args));
-//        System.out.println("sequence of moves:" + movesSeq);
-//
         String roomStrFormat = null;
         Establishment phase1 = null;
         System.out.println("Following movesSequence will be executed:" + movesSeq);

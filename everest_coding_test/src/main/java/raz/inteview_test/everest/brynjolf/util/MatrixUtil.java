@@ -73,21 +73,4 @@ public class MatrixUtil {
         }
     }
 
-    /**
-     * valProducer - abilitatea sa '~~transmit~~/construiesc direct' in lambda/on the fly parametri dinamici, adica coordonatele celulelor sunt ~~trimise~~ construite
-     * dinamic la momentul apelarii lambda-ului
-     */
-//    public static <T> void initMatrixWithValueSupplier(T[][] matrix, /*Supplier<T> valSup, UnaryOperator<T> cellMapper*/ Function<RowColPair, T> valProducer) {
-//        if (matrix == null) {
-//            throw new IllegalArgumentException("The matrix can not be null");
-//        }
-//
-//        for (int rowIdx = 0; rowIdx < matrix.length; rowIdx++) {
-//            T[] oneLine = matrix[rowIdx];
-//            for (int colIdx = 0; colIdx < oneLine.length; colIdx++) {
-//                oneLine[colIdx] = valProducer.apply(new RowColPair(rowIdx, colIdx));
-//            }
-//        }
-//    }
-
 }

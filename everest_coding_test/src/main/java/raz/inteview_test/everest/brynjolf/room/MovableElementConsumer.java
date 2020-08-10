@@ -16,9 +16,6 @@ public class MovableElementConsumer implements MovementObserver {
         roomMatrix = gameRoom.getRoomMatrix();
     }
 
-    /*
-    Basic/base/common Movement logic
-    * */
     @Override
     public void onMoveEvent(Direction direction) {
 
@@ -58,25 +55,6 @@ public class MovableElementConsumer implements MovementObserver {
             return;
         }
     }
-
-    /*
-    Idee, pentru fiecare movement creeaza cate-un obiect gen
-    - Bryn into Space
-    - Guard into Space, etc...
-
-    - DAARRR, sunt cazuri speciala unde este nevoie de additional logic
-    Ex:
-    Bryn into Exit - additional Logic: signal Game Win
-    sau
-    Bryn into Guard/ Guard into Bryn - additional Logic: signal Game Lost
-    * */
-
-//    private boolean isValidTargetForMove(Element target) {
-//        if (target == null || target.isWall())
-//            return false;
-//        MovementCondition canMoveIntoTarget = new MovementCondition(element, target);
-//        return canMoveIntoTarget.isMoveIntoTargetAllowed();
-//    }
 
     private Element getNextPosition(Direction direction) {
         int rowIdx = direction.rowIdxOffset == 0 ? element.rowIdx() : element.rowIdx() + direction.rowIdxOffset;

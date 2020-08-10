@@ -22,12 +22,6 @@ public enum ElementValue {
         throw new IllegalArgumentException("Invalid  Room Value:" + val);
     }
 
-
-//    boolean isStructural() {
-//        return this == WALL || this == EXIT;
-//    }
-
-
     @Override
     public String toString() {
         return strVal;
