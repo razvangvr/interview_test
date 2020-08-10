@@ -145,14 +145,20 @@ public class BFSStandard {
 
     private List<Direction> buildDirections(List<Element> nodesFromBrynToExit) {
         List<Direction> directions = new ArrayList<>();
-        Element start;
+
         Iterator<Element> pathIter = nodesFromBrynToExit.iterator();
+        Element from = pathIter.next();
+        Element to = null;
         boolean isNextElem = true;
-        while (pathIter.hasNext() && isNextElem) {
-            start = pathIter.next();
-            isNextElem = pathIter.hasNext();
-            PointsDelta delta = new PointsDelta(start, pathIter.next());
+        while (pathIter.hasNext()) {
+            to = pathIter.next();
+
+            System.out.println("from:"+from+" to:"+to);
+            PointsDelta delta = new PointsDelta(from, to);
             //pathIter.remove();
+
+            from = to;
+            to = null;
 
             Set<Direction> directionBetween2Neighbours = delta.exitIsToYour();
             if (directionBetween2Neighbours.size() != 1)
