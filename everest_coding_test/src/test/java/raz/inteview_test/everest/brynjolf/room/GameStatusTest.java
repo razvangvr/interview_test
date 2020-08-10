@@ -41,6 +41,7 @@ class GameStatusTest extends RoomMovementTestBase {
 
         Element[][] expectedMatrix = matrixFileConverter.loadFromFile(testSubDir.resolve(outputFile));
 
+        System.out.println("Simulation Outcome:");
         System.out.println(MatrixUtil.prettyPrint(room.getRoomMatrix()));
 
         assertArrayEquals(expectedMatrix, room.getRoomMatrix());
@@ -55,6 +56,8 @@ class GameStatusTest extends RoomMovementTestBase {
                 Arguments.of("initial_undecided_6x_up.txt", "final_undecided_6x_up.txt", "uuuuuu", 4, GameStatus.UNDECIDED),//Testing the Undecided Status due to movesCount Limit exceeded
                 Arguments.of("initial_2_guards.txt", "final_2_guards_right_win.txt", "r", 1, GameStatus.WIN),//Testing the Win Status, 1 Move
                 Arguments.of("initial_2_guards.txt", "final_2_guards_up_left_caught.txt", "ul", 2, GameStatus.LOSE)//Testing the Lose/Caught Status, 1 Move
+                ,Arguments.of("initial_roomB.txt", "final_roomB.txt", "rul", 3, GameStatus.WIN)
+                ,Arguments.of("initial_roomB.txt", "final_roomB.txt", "lur", 3, GameStatus.WIN)
         );
     }
 }
