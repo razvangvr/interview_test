@@ -14,7 +14,7 @@ public abstract class RoomMovementTestBase {
 
     protected MatrixFileConverter matrixFileConverter = new MatrixFileConverter();
 
-    Room room;
+    protected Room room;
 
     @BeforeEach
     void setUp() {
