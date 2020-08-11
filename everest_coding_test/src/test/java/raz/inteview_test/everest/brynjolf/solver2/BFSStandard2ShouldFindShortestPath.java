@@ -17,11 +17,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static raz.inteview_test.everest.brynjolf.Direction.RIGHT;
 import static raz.inteview_test.everest.brynjolf.Direction.UP;
 import static raz.inteview_test.everest.brynjolf.GameStatus.WIN;
 
-class BFSStandard2Test  extends RoomMovementTestBase {
+class BFSStandard2ShouldFindShortestPath extends RoomMovementTestBase {
 
     BFSStandard2 solver;
 
@@ -44,7 +45,7 @@ class BFSStandard2Test  extends RoomMovementTestBase {
     @MethodSource("testArgs")
     void find_movements_sequence_to_the_exit(String inputFile,
                                              //List<Element> expected
-                                             List<Direction> expected
+                                             List<Direction> expectedDirections
             , GameStatus expectedStatus
     ) throws Exception {
         setUp(inputFile);
@@ -55,7 +56,7 @@ class BFSStandard2Test  extends RoomMovementTestBase {
         List<Direction> directionsToExit = solver.directionsToExit();
         System.out.println("directionsToExit >>" + directionsToExit);
 
-        //assertEquals(expected, directionsToExit);
+        assertEquals(expectedDirections, directionsToExit);
 
 
         //Evaluation

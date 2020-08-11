@@ -59,8 +59,12 @@ public class Node extends Element {
     private Node getLastNodeInDirection(Direction direction) {
         Node nextNeighbour = nextNodeInDirection(this, direction);
         if (nextNeighbour != null) {
+            if (nextNeighbour.isExit())
+                return nextNeighbour;
             while (nextNodeInDirection(nextNeighbour, direction) != null) {
                 nextNeighbour = nextNodeInDirection(nextNeighbour, direction);
+                if (nextNeighbour.isExit())
+                    return nextNeighbour;
             }
         }
         return nextNeighbour;
@@ -77,7 +81,7 @@ public class Node extends Element {
         Set<DirectionNode> neighboursInDirections = new HashSet<>();
         for (Direction direction : Direction.values()) {
             Node lastInDirection = getLastNodeInDirection(direction);
-            if (lastInDirection != null)
+            if (lastInDirection != null && !lastInDirection.isVisited())
                 neighboursInDirections.add(new DirectionNode(lastInDirection, direction));
         }
         return neighboursInDirections;
