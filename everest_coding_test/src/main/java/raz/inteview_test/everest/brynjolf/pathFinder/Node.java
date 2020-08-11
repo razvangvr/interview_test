@@ -2,6 +2,7 @@ package raz.inteview_test.everest.brynjolf.pathFinder;
 
 import raz.inteview_test.everest.brynjolf.Direction;
 import raz.inteview_test.everest.brynjolf.room.Element;
+import raz.inteview_test.everest.brynjolf.solver2.DirectionNode;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,18 +26,61 @@ public class Node extends Element {
         Set<Node> neighbours = new HashSet<>();
         Node neighbour = null;
         for (Direction direction : Direction.values()) {
-            int rowIdx = direction.rowIdxOffset == 0 ? this.rowIdx() : this.rowIdx() + direction.rowIdxOffset;
-            int colIdx = direction.colIdxOffset == 0 ? this.colIdx() : this.colIdx() + direction.colIdxOffset;
+            neighbour = nextNodeInDirection(this, direction);
+            if (neighbour != null)
+                neighbours.add(neighbour);
+        }
+        return neighbours.stream().filter(e -> !e.isVisited()).collect(Collectors.toSet());
+    }
 
-            try {
-                neighbour = roomMatrix[rowIdx][colIdx];
-                if (!neighbour.isWall())
-                    neighbours.add(neighbour);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                //Ignored
+    /**
+     * Might return Null if there is no next neighbour
+     */
+    private Node nextNodeInDirection(Node current, Direction direction) {
+        Node neighbour = null;
+        Node node;
+        int rowIdx = direction.rowIdxOffset == 0 ? current.rowIdx() : current.rowIdx() + direction.rowIdxOffset;
+        int colIdx = direction.colIdxOffset == 0 ? current.colIdx() : current.colIdx() + direction.colIdxOffset;
+
+        try {
+            node = roomMatrix[rowIdx][colIdx];
+            if (!node.isWall() && !node.isGuard()) {
+                neighbour = node;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            //Ignored
+        }
+        return neighbour;
+    }
+
+    /**
+     * Might return Null if there is no next neighbour
+     */
+    private Node getLastNodeInDirection(Direction direction) {
+        Node nextNeighbour = nextNodeInDirection(this, direction);
+        if (nextNeighbour != null) {
+            while (nextNodeInDirection(nextNeighbour, direction) != null) {
+                nextNeighbour = nextNodeInDirection(nextNeighbour, direction);
             }
         }
-        return neighbours.stream().filter(e->!e.isVisited()).collect(Collectors.toSet());
+        return nextNeighbour;
+    }
+
+    /**
+     * Returneaza vecinii pe toate directiile nodului current,
+     * - daca intalneste un zid, intoarce nodul dinaintea zidului(daca exita)
+     * - daca intalneste Exit intoarce exitul
+     * - daca intalneste un guard, pe directie exclude Directia
+     * - Pt ca nu vrei sa intri in Guard, si deci nu are sens sa te duci in directia aia ca pierzi
+     */
+    public Set<DirectionNode> neighboursOnDirection() {
+        Set<DirectionNode> neighboursInDirections = new HashSet<>();
+        for (Direction direction : Direction.values()) {
+            Node lastInDirection = getLastNodeInDirection(direction);
+            if (lastInDirection != null)
+                neighboursInDirections.add(new DirectionNode(lastInDirection, direction));
+        }
+        return neighboursInDirections;
     }
 
     public Element[][] getRoomMatrix() {
