@@ -1,5 +1,6 @@
 package raz.inteview_test.everest.brynjolf.solver2;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -71,11 +72,11 @@ class BFSStandard2ShouldFindShortestPath extends RoomMovementTestBase {
 
     private static Stream<Arguments> testArgs() {
         return Stream.of(
-                Arguments.of(
-                        "room_exit_on_first_level.txt",
-                        Collections.singletonList(UP)
-                        , WIN
-                )
+//                Arguments.of(
+//                        "room_exit_on_first_level.txt",
+//                        Collections.singletonList(UP)
+//                        , WIN
+//                )
 //                ,
 //                Arguments.of(
 //                        "roomA.txt",
@@ -83,11 +84,11 @@ class BFSStandard2ShouldFindShortestPath extends RoomMovementTestBase {
 //                        , WIN
 //                )
 //                ,
-//                Arguments.of(
-//                        "roomB.txt",
-//                        List.of(RIGHT, UP)
-//                        , WIN
-//                )
+                Arguments.of(
+                        "roomB.txt",
+                        List.of(RIGHT, UP)
+                        , WIN
+                )
 //                ,
 //                Arguments.of(
 //                        "room_solution_unreachable.txt",
