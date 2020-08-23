@@ -16,11 +16,9 @@ import java.util.*;
  * pt ca pt fiecare nod vecin ii evalueaza vecinii imediati, si daca nu ajungi la Exit,
  * evalueaza celalat vecin(nod) pe ce acelasi nivel
  */
-public class BFSStandard2 extends SolverBase  implements IPathSolver {
+public class BFSStandard2 extends SolverBase implements IPathSolver {
 
     public BFSStandard2(Element[][] matrix) {
-//        gameMatrix = new Node[matrix.length][matrix.length];
-//        initLocateBrynAndExit(matrix);
         super(matrix);
     }
 
@@ -30,9 +28,9 @@ public class BFSStandard2 extends SolverBase  implements IPathSolver {
 
 
     public List<Element> nextPathToExit() {
-        Node exit = exitFound(bryn);
+        foundExit = exitFound(bryn);
         if (exit != null) {
-            pathToExit = reconstructPath(exit);
+            pathToExit = reconstructPath();
         }
         return pathToExit;
     }
@@ -83,69 +81,5 @@ public class BFSStandard2 extends SolverBase  implements IPathSolver {
         return null;
     }
 
-    boolean isExitReached(Set<DirectionNode> directNeighbours) {
-        return directNeighbours
-                .stream()
-                .map(e->e.node())
-                .anyMatch(e -> e.isExit());
-    }
 
-    Node getExit(Set<DirectionNode> directNeighbours) {
-        return directNeighbours
-                .stream()
-                .map(e->e.node())
-                .filter(e -> e.isExit())
-                .findFirst()
-                .get();
-    }
-
-    private List<Element> reconstructPath(Element foundExit) {
-        List<Element> path = null;
-        Stack<Element> stack = new Stack<>();
-
-        if (foundExit != null) {
-            path = new ArrayList<>();
-            Element current = foundExit;
-            stack.push(current);
-            do {
-                current = childToParent.get(current);
-                if (current != null) {
-                    stack.push(current);
-                }
-            } while (current != null);
-
-            while (!stack.empty()) {
-                path.add(stack.pop());
-            }
-        }
-        return path;
-    }
-
-    private List<Direction> buildDirections(List<Element> nodesFromBrynToExit) {
-        List<Direction> directions = new ArrayList<>();
-
-        Iterator<Element> pathIter = nodesFromBrynToExit.iterator();
-        Element from = pathIter.next();
-        Element to = null;
-        boolean isNextElem = true;
-        while (pathIter.hasNext()) {
-            to = pathIter.next();
-
-            System.out.println("from:"+from+" to:"+to);
-            PointsDelta delta = new PointsDelta(from, to);
-            //pathIter.remove();
-
-            from = to;
-            to = null;
-
-            Set<Direction> directionBetween2Neighbours = delta.exitIsToYour();
-            if (directionBetween2Neighbours.size() != 1)
-                throw new IllegalArgumentException("Only 1 dire between 2 adjacent neighbours");
-            Direction currentDir = directionBetween2Neighbours.stream().findFirst().get();
-            if (directions.isEmpty() || !directions.get(directions.size() - 1).equals(currentDir)) {
-                directions.add(currentDir);
-            }
-        }
-        return directions;
-    }
 }
