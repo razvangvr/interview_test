@@ -8,6 +8,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * In plus fata de Element, a Node contains Logic/Code needed for
+ * solving/finding the Exit
+ * - mostly functionality to get the neighbours in a certain direction
+ */
 public class Node extends Element {
 
     final Node[][] roomMatrix;

@@ -1,6 +1,5 @@
 package raz.inteview_test.everest.brynjolf.solver2;
 
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,7 +13,6 @@ import raz.inteview_test.everest.brynjolf.util.MatrixUtil;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -25,7 +23,7 @@ import static raz.inteview_test.everest.brynjolf.GameStatus.WIN;
 
 class BFSStandard2ShouldFindShortestPath extends RoomMovementTestBase {
 
-    BFSStandard2 solver;
+    IPathSolver solver;
 
     @Override
     protected String testFilesSubDir() {
@@ -51,7 +49,7 @@ class BFSStandard2ShouldFindShortestPath extends RoomMovementTestBase {
     ) throws Exception {
         setUp(inputFile);
 
-        List<Element> nodesToExit = solver.nextPath();
+        List<Element> nodesToExit = solver.nextPathToExit();
         System.out.println("nodesToExit >>" + nodesToExit);
 
         List<Direction> directionsToExit = solver.directionsToExit();

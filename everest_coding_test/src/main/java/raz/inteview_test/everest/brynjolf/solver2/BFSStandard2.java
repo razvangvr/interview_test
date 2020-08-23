@@ -4,6 +4,7 @@ import raz.inteview_test.everest.brynjolf.Direction;
 import raz.inteview_test.everest.brynjolf.pathFinder.Node;
 import raz.inteview_test.everest.brynjolf.room.Element;
 import raz.inteview_test.everest.brynjolf.room.ElementValue;
+import raz.inteview_test.everest.brynjolf.solver.PathSolver;
 import raz.inteview_test.everest.brynjolf.solver.PointsDelta;
 import raz.inteview_test.everest.brynjolf.util.MatrixUtil;
 
@@ -15,44 +16,20 @@ import java.util.*;
  * pt ca pt fiecare nod vecin ii evalueaza vecinii imediati, si daca nu ajungi la Exit,
  * evalueaza celalat vecin(nod) pe ce acelasi nivel
  */
-public class BFSStandard2 {
-
-    final Node[][] gameMatrix;
-    private Node bryn;
-    private Element exit;
-
-    List<Element> pathToExit;
-
-    Map<Element, Element> childToParent = new HashMap<>();
+public class BFSStandard2 extends SolverBase  implements IPathSolver {
 
     public BFSStandard2(Element[][] matrix) {
-        gameMatrix = new Node[matrix.length][matrix.length];
-        initLocateBrynAndExit(matrix);
+//        gameMatrix = new Node[matrix.length][matrix.length];
+//        initLocateBrynAndExit(matrix);
+        super(matrix);
     }
 
     public Node getBryn() {
         return bryn;
     }
 
-    private void initLocateBrynAndExit(Element[][] matrix) {
-        Element oneElem;
-        Node node;
-        for (int line = 0; line < matrix.length; line++) {
-            for (int col = 0; col < matrix.length; col++) {
-                oneElem = matrix[line][col];
-                node = new Node(oneElem, gameMatrix);
-                gameMatrix[line][col] = node;
-                if (oneElem.isBryn()) {
-                    bryn = gameMatrix[line][col];
-                }
-                if (oneElem.isExit()) {
-                    exit = oneElem;
-                }
-            }
-        }
-    }
 
-    public List<Element> nextPath() {
+    public List<Element> nextPathToExit() {
         Node exit = exitFound(bryn);
         if (exit != null) {
             pathToExit = reconstructPath(exit);
@@ -74,7 +51,7 @@ public class BFSStandard2 {
 
     public List<Direction> directionsToExit() {
         if (pathToExit == null)
-            pathToExit = nextPath();
+            pathToExit = nextPathToExit();
         return buildDirections(pathToExit);
     }
 

@@ -12,3 +12,4 @@ __
 
 new ideea, cand gasesti the shortest path, o si evaluezi, si daca e win, te opresiti
 daca nu o calculezi pe urmatoarea next shortest
+- pe cea dinainte(shortest path deja calculata, o umpli cu wall Nodes, ca sa o excluzi, adica path-ul acela nu e o solutie)
