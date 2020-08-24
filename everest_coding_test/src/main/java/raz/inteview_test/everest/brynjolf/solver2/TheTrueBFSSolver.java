@@ -1,13 +1,11 @@
 package raz.inteview_test.everest.brynjolf.solver2;
 
+import org.javatuples.Pair;
 import raz.inteview_test.everest.brynjolf.Direction;
 import raz.inteview_test.everest.brynjolf.pathFinder.Node;
 import raz.inteview_test.everest.brynjolf.room.Element;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Breadth First Search
@@ -22,6 +20,9 @@ public class TheTrueBFSSolver extends SolverBase implements IPathSolver {
 
     public int nodesVisits = 0;
 
+
+    protected Map<Pair<Element, Integer>, Element> childParentLevelToParent = new HashMap<>();
+
     public TheTrueBFSSolver(Element[][] matrix) {
         super(matrix);
     }
@@ -32,11 +33,13 @@ public class TheTrueBFSSolver extends SolverBase implements IPathSolver {
         nodesToVisit.add(bryn);
 
         boolean exitFound = false;
+        int graphLevel = 0;
 
         while (!nodesToVisit.isEmpty() && !exitFound) {
-            exitFound = visitNode(nodesToVisit.remove());
+            exitFound = visitNode(nodesToVisit.remove(), graphLevel);
+            graphLevel++;
         }
-        pathToExit = reconstructPath();
+        pathToExit = reconstructPath(childParentLevelToParent);
 
         return pathToExit;
     }
@@ -46,9 +49,9 @@ public class TheTrueBFSSolver extends SolverBase implements IPathSolver {
      * - check if exit is within reach of its direct neighbours
      * - if not add its direct neighbours to the queue
      */
-    private boolean visitNode(Node parent) {
+    private boolean visitNode(Node parent, int graphLevel) {
         nodesVisits++;
-        System.out.println("visiting node:" + parent);
+        System.out.println("visiting node:" + parent + " graphLevel of Parent :" + graphLevel);
         parent.setVisited(true);
 
         Set<DirectionNode> directNeighbours = parent.neighboursOnDirection();
@@ -56,10 +59,10 @@ public class TheTrueBFSSolver extends SolverBase implements IPathSolver {
         boolean exitFound = isExitReached(directNeighbours);
         if (exitFound) {
             foundExit = getExit(directNeighbours);
-            childToParent.put(foundExit, parent);
+            childParentLevelToParent.put(new Pair(foundExit, graphLevel), parent);
         } else {
             for (DirectionNode oneNeighbour : directNeighbours) {
-                childToParent.put(oneNeighbour.node(), parent);
+                childParentLevelToParent.put(new Pair(oneNeighbour.node(), graphLevel), parent);
                 nodesToVisit.offer(oneNeighbour.node());
             }
         }

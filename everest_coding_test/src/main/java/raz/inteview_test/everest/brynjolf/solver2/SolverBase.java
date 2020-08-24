@@ -1,11 +1,13 @@
 package raz.inteview_test.everest.brynjolf.solver2;
 
+import org.javatuples.Pair;
 import raz.inteview_test.everest.brynjolf.Direction;
 import raz.inteview_test.everest.brynjolf.pathFinder.Node;
 import raz.inteview_test.everest.brynjolf.room.Element;
 import raz.inteview_test.everest.brynjolf.solver.PointsDelta;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SolverBase {
 
@@ -80,6 +82,51 @@ public class SolverBase {
             }
         }
         return path;
+    }
+
+    protected List<Element> reconstructPath(Map<Pair<Element, Integer>, Element> childParentLevelToParent) {
+        List<Element> path = null;
+        Stack<Element> stack = new Stack<>();
+
+        if (foundExit != null) {
+            path = new ArrayList<>();
+            Element parent = foundExit;
+            stack.push(parent);
+            boolean sourceReached = false;
+            do {
+                parent = fetchCorrectParentFromGraph(parent, childParentLevelToParent);
+                sourceReached = parent.isBryn();
+                if (parent != null) {
+                    stack.push(parent);
+                }
+            } while (/*parent != null*/!sourceReached);
+
+            while (!stack.empty()) {
+                path.add(stack.pop());
+            }
+        }
+        return path;
+    }
+
+    /**
+     * Fetches the Shortest Path(the Direct Path) to the given child
+     */
+    Element fetchCorrectParentFromGraph(Element child, Map<Pair<Element, Integer>, Element> childParentLevelToParent) {
+        Set<Pair<Element, Integer>> parentsToChild = childParentLevelToParent.keySet()
+                .stream()
+                .filter(childParentLevel -> childParentLevel.getValue0().equals(child))
+                .collect(Collectors.toSet());
+
+        Pair<Element, Integer> key = null;
+        if (parentsToChild.size() == 1)
+            key = parentsToChild.stream().findFirst().get();
+        else {
+            key = parentsToChild
+                    .stream()
+                    .min(Comparator.comparingInt(Pair::getValue1))
+                    .get();
+        }
+        return childParentLevelToParent.get(key);
     }
 
     protected List<Direction> buildDirections(List<Element> nodesFromBrynToExit) {
