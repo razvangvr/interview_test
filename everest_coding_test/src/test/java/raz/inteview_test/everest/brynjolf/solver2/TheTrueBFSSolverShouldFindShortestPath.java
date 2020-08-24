@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static raz.inteview_test.everest.brynjolf.Direction.RIGHT;
-import static raz.inteview_test.everest.brynjolf.Direction.UP;
+import static raz.inteview_test.everest.brynjolf.Direction.*;
+import static raz.inteview_test.everest.brynjolf.GameStatus.LOSE;
 import static raz.inteview_test.everest.brynjolf.GameStatus.WIN;
 
 
@@ -63,7 +63,7 @@ class TheTrueBFSSolverShouldFindShortestPath extends RoomMovementTestBase {
 
         //Evaluation
         //If the list of moves was correctly generated, you should win the game
-        SimulationResult result = room.executeMoveSequence(directionsToExit);
+        SimulationResult result = solver.hasSolution() ? room.executeMoveSequence(directionsToExit) : SimulationResult.EXIT_CANT_BE_REACHED;
         System.out.println(result.getGameStatus());
 //
         assertEquals(expectedStatus, result.getGameStatus());
@@ -72,29 +72,66 @@ class TheTrueBFSSolverShouldFindShortestPath extends RoomMovementTestBase {
 
     private static Stream<Arguments> testArgs() {
         return Stream.of(
-//                Arguments.of(
-//                        "room_exit_on_first_level.txt",
-//                        Collections.singletonList(UP)
-//                        , WIN
-//                )
-//                ,
+                Arguments.of(
+                        "room_exit_on_first_level.txt",
+                        Collections.singletonList(UP)
+                        , WIN
+                )
+                ,
                 Arguments.of(
                         "roomA.txt",
                         List.of(RIGHT, UP)
                         , WIN
                 )
-//                ,
-//                Arguments.of(
-//                        "roomB.txt",
-//                        List.of(RIGHT, UP)
-//                        , WIN
-//                )
-//                ,
-//                Arguments.of(
-//                        "room_solution_unreachable.txt",
-//                        List.of(RIGHT, UP)
-//                        , WIN
-//                )
+                ,
+                /*
+                ATTN, this TestCase has 2 solutions, which are equal as MovesCount and Directional Moves:
+                visiting node:[2][1] b graphLevel of Parent :0
+                And sometimes, I get one Path, another times I get the other
+------------------------------------------------------------------------
+visiting node:[3][1] . graphLevel of Parent :1
+visiting node:[2][0] . graphLevel of Parent :2
+visiting node:[2][3] . graphLevel of Parent :3
+visiting node:[3][3] . graphLevel of Parent :4
+visiting node:[3][0] . graphLevel of Parent :5
+visiting node:[2][3] . graphLevel of Parent :6
+visiting node:[0][0] . graphLevel of Parent :7
+nodesToExit >>[[2][1] b, [2][0] ., [0][0] ., [0][2] e]
+from:[2][1] b to:[2][0] .
+from:[2][0] . to:[0][0] .
+from:[0][0] . to:[0][2] e
+directionsToExit >>[LEFT, UP, RIGHT]
+
+
+org.opentest4j.AssertionFailedError:
+Expected :[RIGHT, UP, LEFT]
+Actual   :[LEFT, UP, RIGHT]
+------------------------------------------------------------------------
+visiting node:[2][1] b graphLevel of Parent :0
+visiting node:[2][3] . graphLevel of Parent :1
+visiting node:[2][0] . graphLevel of Parent :2
+visiting node:[3][1] . graphLevel of Parent :3
+visiting node:[2][0] . graphLevel of Parent :4
+visiting node:[3][3] . graphLevel of Parent :5
+visiting node:[0][3] . graphLevel of Parent :6
+nodesToExit >>[[2][1] b, [2][3] ., [0][3] ., [0][2] e]
+from:[2][1] b to:[2][3] .
+from:[2][3] . to:[0][3] .
+from:[0][3] . to:[0][2] e
+directionsToExit >>[RIGHT, UP, LEFT]
+WIN
+                * */
+                Arguments.of(
+                        "roomB.txt",
+                        List.of(RIGHT, UP, LEFT)
+                        , WIN
+                )
+                ,
+                Arguments.of(
+                        "room_solution_unreachable.txt",
+                        null
+                        , LOSE
+                )
         );
     }
 

@@ -10,4 +10,6 @@ public interface IPathSolver {
     List<Element> nextPathToExit();
 
     List<Direction> directionsToExit();
+
+    boolean hasSolution();
 }

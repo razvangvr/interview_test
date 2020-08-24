@@ -17,9 +17,13 @@ public class TheTrueBFSSolver extends SolverBase implements IPathSolver {
     //Set<Element> alreadyVisited = new HashSet<>();
 
     Queue<Node> nodesToVisit = new LinkedList<>();
-
+    private boolean hasSolution;
     public int nodesVisits = 0;
 
+
+    public boolean hasSolution() {
+        return hasSolution;
+    }
 
     protected Map<Pair<Element, Integer>, Element> childParentLevelToParent = new HashMap<>();
 
@@ -28,6 +32,9 @@ public class TheTrueBFSSolver extends SolverBase implements IPathSolver {
     }
 
 
+    /**
+     * @return returns null if I can find a path to exit
+     */
     @Override
     public List<Element> nextPathToExit() {
         nodesToVisit.add(bryn);
@@ -39,9 +46,13 @@ public class TheTrueBFSSolver extends SolverBase implements IPathSolver {
             exitFound = visitNode(nodesToVisit.remove(), graphLevel);
             graphLevel++;
         }
-        pathToExit = reconstructPath(childParentLevelToParent);
+        hasSolution = exitFound;
+        if (hasSolution) {
+            pathToExit = reconstructPath(childParentLevelToParent);
+            return pathToExit;
+        } else
+            return null;
 
-        return pathToExit;
     }
 
     /**
@@ -74,7 +85,10 @@ public class TheTrueBFSSolver extends SolverBase implements IPathSolver {
     public List<Direction> directionsToExit() {
         if (pathToExit == null)
             pathToExit = nextPathToExit();
-        return buildDirections(pathToExit);
+        if (hasSolution)
+            return buildDirections(pathToExit);
+        else
+            return null;
     }
 
     //mai am Path-uri? sau le-am epuizat pe toate?

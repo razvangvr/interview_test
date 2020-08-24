@@ -53,6 +53,13 @@ public class BFSStandard2 extends SolverBase implements IPathSolver {
         return buildDirections(pathToExit);
     }
 
+    @Override
+    public boolean hasSolution() {
+        if (pathToExit == null)
+            return nextPathToExit() != null;
+        else return true;
+    }
+
 
     /**
      * root/parent - adica Source/Bryn
