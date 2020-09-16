@@ -17,7 +17,7 @@ public class TheTrueBFSSolver extends SolverBase implements IPathSolver {
     //Set<Element> alreadyVisited = new HashSet<>();
 
     Queue<Node> nodesToVisit = new LinkedList<>();
-    private boolean hasSolution;
+    private Boolean hasSolution =null;
     public int nodesVisits = 0;
 
 

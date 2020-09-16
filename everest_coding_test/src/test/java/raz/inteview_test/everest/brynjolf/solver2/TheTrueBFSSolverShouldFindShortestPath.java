@@ -14,7 +14,9 @@ import raz.inteview_test.everest.brynjolf.util.MatrixUtil;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +42,48 @@ class TheTrueBFSSolverShouldFindShortestPath extends RoomMovementTestBase {
         solver = new TheTrueBFSSolver(roomMatrix);
 
         room = new Room(roomMatrix);
+    }
+
+    /*
+    - directionsToExit >>[LEFT, UP, RIGHT]
+    Expected :[RIGHT, UP, LEFT]
+    Actual   :[LEFT, UP, RIGHT]
+    * */
+    @ParameterizedTest
+    @MethodSource("testArgsBB")
+    void generate_the_all_possible_paths(
+            String inputFile,
+            //List<Element> expected
+            List<Direction> expectedDirections
+            , GameStatus expectedStatus
+    ) throws Exception {
+        setUp(inputFile);
+
+        Set<List<Element>> all_possible_paths = new HashSet<>();
+        List<Element> nodesToExit;
+        while ((nodesToExit = solver.nextPathToExit()) != null) {
+            //System.out.println(nodesToExit);
+            all_possible_paths.add(nodesToExit);
+        }
+
+        System.out.println(all_possible_paths);
+    }
+
+    private static Stream<Arguments> testArgsBB() {
+        return Stream.of(
+//                Arguments.of(
+//                        "room_exit_on_first_level.txt",
+//                        Collections.singletonList(UP)
+//                        , WIN
+//                )
+//                ,
+                Arguments.of(
+                        "roomB.txt",
+                        List.of(RIGHT, UP, LEFT)
+                        , WIN
+                )
+
+        );
     }
 
     @ParameterizedTest
